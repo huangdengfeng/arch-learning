@@ -32,7 +32,9 @@ export default {
           text: '框架',
           children: [
             '/notes/framework/index.md',
-            '/notes/framework/dubbo/tri.md'],
+            '/notes/framework/dubbo/tri.md',
+            '/notes/framework/dubbo/tri-exception.md'
+          ],
         },
         {
           text: '中间件',
@@ -41,8 +43,7 @@ export default {
         },
         {
           text: '工具',
-          children: ['/notes/1.md',
-            '/notes/2.md'],
+          children: ['/notes/tools/git.md'],
         },
       ],
     }

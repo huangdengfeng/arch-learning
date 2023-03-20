@@ -58,3 +58,7 @@ mvn archetype:generate \
     -DinteractiveMode=false
     
 ```
+
+## 源代码
+
+https://github.com/seezoon/seezoon-standard
