@@ -1,4 +1,4 @@
-# dubbo Triple 统一参数验证
+# Dubbo Triple 统一参数验证
 
 微服务中通用入参验证可以减少很多胶水代码，java对象通常采用jsr303校验很方便。当使用triple 协议时候我们迫切需要PB
 参数自动校验。
@@ -114,7 +114,7 @@ src
     |-resources
         |-META-INF
             |-dubbo
-                |-org.apache.dubbo.validation.Validation (纯文本文件，内容为：pbValidation=com.seezoon.dubbo.support.PbValidation)
+                |-org.apache.dubbo.validation.Validation (纯文本文件，内容为：pbValidation=com.seezoon.dubbo.support.validation.PbValidation)
 ```
 
 ### 扩展类

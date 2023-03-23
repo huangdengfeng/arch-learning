@@ -1,11 +1,13 @@
-### 密码相关
+# Git 日常常用操作
+
+## 密码相关
 
 - 记住密码
   `git config --global credential.helper store`
 - 清空密码
   `git config --global --unset credential.helper`
 
-### 仓库克隆
+## 仓库克隆
 
 - 默认clone master
 
@@ -19,7 +21,7 @@ git clone url
 git clone -b [branch_name] url
 ```
 
-### 分支
+## 分支
 
 - 本地和远程，`-a` 为同时显示远程仓库分支信息，不加`-a `只显示本地
 
@@ -39,19 +41,19 @@ git checkout -b localName
 git checkout -b localName remoteName
 ```
 
-### 查看美化后的log
+## 查看美化后的log
 
 ```
 git log --pretty=online -n 10
 ```
 
-### 查看到reset后的log
+## 查看到reset后的log
 
 ```
 git reflog --date=iso
 ```
 
-### **关于git merge 和 git rebase**
+## **关于git merge 和 git rebase**
 
 - 主干合分支 用git merge
 
@@ -75,13 +77,13 @@ git merge --abort
 git merge --squash [branch_name]
 ```
 
-### 文件回退
+## 文件回退
 
 1. 未add 的直接git checkout -- fileName
 2. 已add 或者已经commit 的回到指定版本 git reset commit_id [fileName]，这个无法使用-hard,所以还需要再git
    checkout -- fileName ，这样就可以回到指定commit_id 的版本
 
-### 回退
+## 回退
 
 - 回退到指定commit，commit_id=HEAD 则为当前，如果是不添加hard ,commit_id 之前的内容会在工作区，需要add后重新commit.
 
@@ -96,10 +98,10 @@ git reset --hard commit_id
 
 3. git reset -hard 彻底回退到某个版本，本地的源码也会变成为上一个版本的内容
 
-### Pull Request 技巧
+## Pull Request 技巧
 
 Pull request 不仅可以用于向上游共享代码，也可以在fork 上游后，同步更新，如图注意箭头。
 
-<img src="git-pr.png" alt="" style="zoom:50%;" /> 
+<img src="https://raw.githubusercontent.com/huangdengfeng/arch-learning/main/docs/notes/tools/git-pr.png" alt="" style="zoom:50%;" /> 
 
 

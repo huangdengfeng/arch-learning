@@ -13,27 +13,31 @@ export default {
     navbar: [
       {
         text: '大型架构',
-        link: '/architecture',
+        link: '/architecture/',
       },
       {
         text: '知识笔记',
         link: '/notes/',
       },
-      {
-        text: '知识笔记1',
-        children: ['/notes/'],
-      },
     ],
     sidebarDepth: 0,
     sidebar: {
-      'architecture': {},
+      '/architecture/': [
+        {
+          text: '架构',
+          children: [
+            '/architecture/set-arch.md',
+          ],
+        }
+      ],
       '/notes/': [
         {
           text: '框架',
           children: [
             '/notes/framework/index.md',
             '/notes/framework/dubbo/tri.md',
-            '/notes/framework/dubbo/tri-exception.md'
+            '/notes/framework/dubbo/tri-exception.md',
+            '/notes/framework/dubbo/tri-validation.md'
           ],
         },
         {
