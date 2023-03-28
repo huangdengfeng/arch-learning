@@ -49,7 +49,7 @@ seezoon-standard  父工程
 # com.your.groupid 按需替换
 # your-artifactid 按需替换
 mvn archetype:generate \
-    -DarchetypeGroupId=com.seezoon \
+    -DarchetypeGroupId=com.seezoon.archetype \
     -DarchetypeArtifactId=quickstart \
     -DarchetypeVersion=1.0.0-SNAPSHOT \
     -DgroupId=com.your.groupid \

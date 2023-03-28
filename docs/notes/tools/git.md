@@ -7,6 +7,12 @@
 - 清空密码
   `git config --global --unset credential.helper`
 
+## 配置ssh免登
+
+[生成Key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
+[添加key](https://github.com/settings/keys)
+
 ## 仓库克隆
 
 - 默认clone master
@@ -102,6 +108,5 @@ git reset --hard commit_id
 
 Pull request 不仅可以用于向上游共享代码，也可以在fork 上游后，同步更新，如图注意箭头。
 
-<img src="https://raw.githubusercontent.com/huangdengfeng/arch-learning/main/docs/notes/tools/git-pr.png" alt="" style="zoom:50%;" /> 
-
+![PR](/images/git-pr.png)
 

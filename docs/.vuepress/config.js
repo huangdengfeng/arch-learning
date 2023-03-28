@@ -1,6 +1,7 @@
 import {defaultTheme} from 'vuepress'
 // https://v2.vuepress.vuejs.org/zh/reference/config.html
 export default {
+  base: 'arch-learning',
   title: '亿级企业架构实践',
   description: '从零到一搭建亿级企业架构',
   head: [
@@ -37,7 +38,10 @@ export default {
             '/notes/framework/index.md',
             '/notes/framework/dubbo/tri.md',
             '/notes/framework/dubbo/tri-exception.md',
-            '/notes/framework/dubbo/tri-validation.md'
+            '/notes/framework/dubbo/tri-validation.md',
+            '/notes/framework/dubbo/dubbo-admin.md',
+            '/notes/framework/nacos/nacos-discovery.md',
+            '/notes/framework/dubbo/dubbo-router.md'
           ],
         },
         {
