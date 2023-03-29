@@ -128,7 +128,8 @@ public class DubboExceptionAdvice {
 }
 ```
 
-这块实现比较复杂，这块我们封装到我们企业级脚手架中，有兴趣的可以参考[github](https://github.com/seezoon/seezoon-standard/tree/master/starters/ddd-spring-boot-starter)
+## 核心代码
 
+[dubbo全局异常处理](https://github.com/seezoon/seezoon-standard/tree/master/starters/dubbo-spring-boot-starter/src/main/java/com/seezoon/dubbo/advice)
 
 

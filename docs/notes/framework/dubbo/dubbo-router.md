@@ -74,10 +74,10 @@ dubbo:
 
 consumer也可以通过编程方式设置tag
 
-```java
+```text
 // 优先级高
 RpcContext.getContext().setAttachment(Constants.TAG_KEY,"tag1");
-        RpcContext.getContext().setAttachment(Constants.FORCE_USE_TAG,"true");
+RpcContext.getContext().setAttachment(Constants.FORCE_USE_TAG,"true");
 ```
 
 ## 自定义路由
@@ -86,7 +86,7 @@ RpcContext.getContext().setAttachment(Constants.TAG_KEY,"tag1");
 放入文本文件
 
 ```text
-meta=com.seezoon.user.infrastructure.router.MetaStateRouterFactory
+metaRouter=com.seezoon.dubbo.router.MetaStateRouterFactory
 ```
 
 主要是继承`CacheableStateRouterFactory`
@@ -94,25 +94,67 @@ meta=com.seezoon.user.infrastructure.router.MetaStateRouterFactory
 ```java
 /**
  * 元数据路由
+ *
+ * @author dfenghuang
+ * @date 2023/3/27 23:40
  */
 @Activate
 public class MetaStateRouterFactory extends CacheableStateRouterFactory {
 
     @Override
     protected <T> StateRouter<T> createRouter(Class<T> interfaceClass, URL url) {
-        return new MetaStateRouter(url);
+        Map<String, String> routerMetas = url.getParameters(v -> v.startsWith("router.meta"));
+        RouterMeta routerMeta = new RouterMeta();
+        Map<String, String> customMeta = new HashMap<>(routerMetas.size());
+        routerMetas.forEach((k, v) -> {
+            if (RouterMeta.CONSUMER_SET_KEY.equals(k)) {
+                routerMeta.setSet(v);
+            } else if (RouterMeta.CONSUMER_IDC_KEY.equals(k)) {
+                routerMeta.setIdc(v);
+            } else if (RouterMeta.CONSUMER_CITY_KEY.equals(k)) {
+                routerMeta.setCity(v);
+            } else if (RouterMeta.NEARBY_ROUTE_KEY.equals(k)) {
+                routerMeta.setNearbyRoute(
+                        StringUtils.isNotEmpty(v) ? Boolean.parseBoolean(v) : true);
+            } else {
+                customMeta.put(k.substring(RouterMeta.ROUTER_PREFIX.length()), v);
+            }
+        });
+        routerMeta.setCustomMeta(customMeta);
+        routerMeta.setNearbyMetaEmpty(StringUtils.isEmpty(routerMeta.getSet())
+                && StringUtils.isEmpty(routerMeta.getIdc())
+                && StringUtils.isEmpty(routerMeta.getCity()));
+        routerMeta.setEmpty(routerMeta.isNearbyMetaEmpty() && customMeta.isEmpty());
+        return new MetaStateRouter(routerMeta, url);
     }
 }
-
 ```
 
 主要继承`AbstractStateRouter`
 
 ```java
+/**
+ * 元数据路由
+ * </p>
+ *
+ * <pre>
+ * 1. 如果设置了自定义的元数据，元数据需要严格匹配；
+ * 2. 如果设置了就近路由元数据，按set->idc->city的维度逐步找
+ * 3. 如果关闭就近路由，就近的元数据存在的话，也需要严格匹配到
+ * </pre>
+ *
+ * @author dfenghuang
+ * @date 2023/3/27 23:42
+ */
+@Slf4j
 public class MetaStateRouter<T> extends AbstractStateRouter<T> {
 
-    public MetaStateRouter(URL url) {
+    private static final int size = 5;
+    private final RouterMeta routerMeta;
+
+    public MetaStateRouter(RouterMeta routerMeta, URL url) {
         super(url);
+        this.routerMeta = routerMeta;
     }
 
     @Override
@@ -120,10 +162,97 @@ public class MetaStateRouter<T> extends AbstractStateRouter<T> {
             Invocation invocation,
             boolean needToPrintMessage, Holder<RouterSnapshotNode<T>> routerSnapshotNodeHolder,
             Holder<String> messageHolder) throws RpcException {
-        // 模拟要匹配consumer idc 参数
-        invokers.removeIf(
-                v -> Objects.equals(url.getParameter("idc"), v.getUrl().getParameter("idc")));
-        return invokers;
+        if (routerMeta.isEmpty()) {
+            return invokers;
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("consumer:{},router meta:{}", url, routerMeta);
+        }
+        int minSize = Math.min(size, invokers.size());
+        List<Invoker<T>> result = new ArrayList<>(invokers.size());
+        List<Invoker<T>> setResult = new ArrayList<>(minSize);
+        List<Invoker<T>> idcResult = new ArrayList<>(minSize);
+        List<Invoker<T>> cityResult = new ArrayList<>(minSize);
+        String consumerSet = invocation.getAttachment(RouterMeta.CONSUMER_SET_KEY,
+                routerMeta.getSet());
+        String consumerIdc = invocation.getAttachment(RouterMeta.CONSUMER_IDC_KEY,
+                routerMeta.getIdc());
+        String consumerCity = invocation.getAttachment(RouterMeta.CONSUMER_CITY_KEY,
+                routerMeta.getCity());
+        for (Invoker<T> invoker : invokers) {
+            Map<String, String> parameters = invoker.getUrl().getParameters();
+            // 自定义的元数据必须匹配
+            boolean customMetaMatched = true;
+            for (Entry<String, String> entry : routerMeta.getCustomMeta().entrySet()) {
+                if (!Objects.equals(entry.getValue(), parameters.get(entry.getKey()))) {
+                    customMetaMatched = false;
+                }
+            }
+            if (!customMetaMatched) {
+                continue;
+            }
+            if (routerMeta.isNearbyMetaEmpty()) {
+                continue;
+            }
+            String providerSet = parameters.get(RouterMeta.SET);
+            String providerIdc = parameters.get(RouterMeta.IDC);
+            String providerCity = parameters.get(RouterMeta.CITY);
+            // 不开就近，就需要全匹配
+            if (!routerMeta.isNearbyRoute()) {
+                if (StringUtils.isNotEmpty(consumerSet) && !Objects.equals(consumerSet,
+                        providerSet)) {
+                    continue;
+                }
+                if (StringUtils.isNotEmpty(consumerIdc) && !Objects.equals(consumerIdc,
+                        providerIdc)) {
+                    continue;
+                }
+                if (StringUtils.isNotEmpty(consumerCity) && !Objects.equals(consumerCity,
+                        providerCity)) {
+                    continue;
+                }
+                result.add(invoker);
+                continue;
+            }
+            if (StringUtils.isNotEmpty(consumerSet) && Objects.equals(consumerSet,
+                    providerSet)) {
+                setResult.add(invoker);
+                continue;
+            }
+            if (StringUtils.isNotEmpty(consumerIdc) && Objects.equals(consumerIdc,
+                    providerIdc)) {
+                idcResult.add(invoker);
+                continue;
+            }
+            if (StringUtils.isNotEmpty(consumerCity) && Objects.equals(consumerCity,
+                    providerCity)) {
+                cityResult.add(invoker);
+            }
+        }
+        // 如果不开就近
+        if (!routerMeta.isNearbyRoute()) {
+            return new BitList<>(result);
+        }
+        // 或者距离标签配置则返回全量
+        if (routerMeta.isNearbyMetaEmpty()) {
+            return new BitList<>(result);
+        }
+
+        // 就近路由
+        if (!setResult.isEmpty()) {
+            log.debug("use set nearby meta:{}", consumerSet);
+            return new BitList<>(setResult);
+        }
+        if (!idcResult.isEmpty()) {
+            log.debug("use idc nearby meta:{}", consumerIdc);
+            return new BitList<>(idcResult);
+        }
+        if (!cityResult.isEmpty()) {
+            log.debug("use city nearby meta:{}", consumerCity);
+            return new BitList<>(cityResult);
+        }
+        log.debug("can not find any nearby provider");
+        return new BitList<>(result);
     }
 
     @Override
@@ -142,4 +271,8 @@ public class MetaStateRouter<T> extends AbstractStateRouter<T> {
     }
 }
 ```
+
+## 源代码
+
+[dubbo自定义就近路由](https://github.com/seezoon/seezoon-standard/tree/master/starters/dubbo-spring-boot-starter/src/main/java/com/seezoon/dubbo/router)
 

@@ -204,4 +204,4 @@ validation参数配置pbValidation即可。
 
 ## 源码参考
 
-[dubbo-tri](https://github.com/huangdengfeng/simples/tree/main/dubbo-tri)
+[dubbo pb 参数校验](https://github.com/seezoon/seezoon-standard/tree/master/starters/dubbo-spring-boot-starter/src/main/java/com/seezoon/dubbo/validation)
