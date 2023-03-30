@@ -271,7 +271,47 @@ public class MetaStateRouter<T> extends AbstractStateRouter<T> {
     }
 }
 ```
+## 示例
 
+**Provider 配置** 
+```yaml
+dubbo: 
+  provider:
+    parameters:
+      # 服务提供者元数据，消费者根据这个路由
+      meta.set: set1  # 单元
+      meta.idc: idc1  # 机房
+      meta.city: city1 #城市
+      meta.tenant: custom-meta
+```
+**Consumer 配置**
+
+```yaml
+dubbo:
+  consumer:
+    # ms
+    timeout: 2000
+    retries: 0
+    tag: consumerTag
+    parameters:
+      # 路由元数据
+      router.meta.set: set1
+      router.meta.idc: idc1
+      router.meta.city: city1
+      # 默认是true
+      router.meta.nearbyRoute: false
+      router.meta.tenant: custom-meta
+  reference:
+    com.seezoon.protocol.user.server.domain.UserService:
+      parameters:
+        # 路由元数据 优先级高于consumer
+        router.meta.set: set1
+        router.meta.idc: idc1
+        router.meta.city: city1
+        # 默认是true
+        router.meta.nearbyRoute: false
+        router.meta.tenant: custom-meta
+```
 ## 源代码
 
 [dubbo自定义就近路由](https://github.com/seezoon/seezoon-standard/tree/master/starters/dubbo-spring-boot-starter/src/main/java/com/seezoon/dubbo/router)
