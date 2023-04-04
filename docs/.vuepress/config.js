@@ -41,12 +41,13 @@ export default {
             '/notes/framework/dubbo/tri-validation.md',
             '/notes/framework/dubbo/dubbo-admin.md',
             '/notes/framework/nacos/nacos-discovery.md',
-            '/notes/framework/dubbo/dubbo-router.md'
+            '/notes/framework/dubbo/dubbo-router.md',
+            '/notes/framework/mybatis/mybatis-dynamic-sql.md'
           ],
         },
         {
           text: '中间件',
-          children: ['/notes/1.md',
+          children: ['/notes/middleware/apisix/install.md',
             '/notes/2.md'],
         },
         {
