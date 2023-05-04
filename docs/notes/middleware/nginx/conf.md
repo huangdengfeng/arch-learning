@@ -157,3 +157,26 @@ location ~* /js/.*/\.js
 顺序优先级：
 (location =) > (location 完整路径) > (location ^~ 路径) > (location ~,~* 正则顺序) > (location 部分起始路径) > (/)
 
+# rewrite
+该指令是通过正则表达式的使用来改变URI。可以同时存在一个或多个指令。需要按照顺序依次对URL进行匹配和处理。
+
+该指令可以在server块或location块中配置，其基本语法结构如下：
+```
+rewrite regex replacement [flag];
+```
+**regex**的含义：用于匹配URI的正则表达式。
+replacement：将regex正则匹配到的内容替换成 replacement。
+flag: flag标记。 flag有如下值：
+- last: 本条规则匹配完成后，继续向下匹配新的location URI 规则。(不常用)
+- break: 本条规则匹配完成即终止，不再匹配后面的任何规则(不常用)。
+- redirect: 返回302临时重定向，浏览器地址会显示跳转新的URL地址。
+- permanent: 返回301永久重定向。浏览器地址会显示跳转新的URL地址。
+
+```
+# 永久跳转到某个地址
+rewrite ^/(.*) http://www.baidu.com/$1 permanent;
+# 自动跳到某个路径，重新在匹配合适的location
+location = / {
+         rewrite (.*) /v2 last;
+    }
+```
