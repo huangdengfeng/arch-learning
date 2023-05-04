@@ -48,6 +48,7 @@ export default {
         {
           text: '中间件',
           children: ['/notes/middleware/apisix/install.md',
+            '/notes/middleware/nginx/conf.md',
             '/notes/2.md'],
         },
         {
