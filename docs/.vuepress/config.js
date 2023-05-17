@@ -42,7 +42,10 @@ export default {
             '/notes/framework/dubbo/dubbo-admin.md',
             '/notes/framework/nacos/nacos-discovery.md',
             '/notes/framework/dubbo/dubbo-router.md',
-            '/notes/framework/mybatis/mybatis-dynamic-sql.md'
+            '/notes/framework/mybatis/mybatis-dynamic-sql.md',
+            '/notes/framework/spring/mutiple-bean-inject.md',
+            '/notes/framework/spring/propery-binder.md',
+            '/notes/framework/spring/spring-gateway-router.md'
           ],
         },
         {
