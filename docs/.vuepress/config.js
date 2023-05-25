@@ -52,11 +52,15 @@ export default {
           text: '中间件',
           children: ['/notes/middleware/apisix/install.md',
             '/notes/middleware/nginx/conf.md',
-            '/notes/2.md'],
+            '/notes/middleware/docker/index.md'],
         },
         {
           text: '工具',
-          children: ['/notes/tools/git.md'],
+          children: ['/notes/tools/git.md',
+            '/notes/tools/tcp.md',
+            '/notes/tools/jvm.md',
+            '/notes/tools/mysql.md',
+            '/notes/tools/maven.md'],
         },
       ],
     }
