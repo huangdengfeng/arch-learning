@@ -52,7 +52,9 @@ export default {
           text: '中间件',
           children: ['/notes/middleware/apisix/install.md',
             '/notes/middleware/nginx/conf.md',
-            '/notes/middleware/docker/index.md'],
+            '/notes/middleware/docker/index.md',
+            '/notes/middleware/k8s/dashboard.md',
+          ],
         },
         {
           text: '工具',
@@ -60,7 +62,10 @@ export default {
             '/notes/tools/tcp.md',
             '/notes/tools/jvm.md',
             '/notes/tools/mysql.md',
-            '/notes/tools/maven.md'],
+            '/notes/tools/maven.md',
+            '/notes/tools/tcp.md',
+            '/notes/tools/perfa.md',
+          ],
         },
       ],
     }
