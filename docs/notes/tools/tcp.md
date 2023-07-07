@@ -33,11 +33,11 @@ ESTAB     0   433       :::6080                  :::*
 ```
 
 # 抓包wireshark分析
-sudo tcpdump tcp port 7003 -tt -i eth1 [-v] -n -s  0 -w /tmp/tcp.cap
-tcpdump -i any dst|src 192.168.1.1 指定源或者目的ip
+sudo tcpdump tcp port 7003 -tt -i eth1 [-v] -n -s  0 -w /tmp/tcp.cap   
+tcpdump -i any dst|src 192.168.1.1 指定源或者目的ip  
 -w 输出到文件 winshark 分析
 
-tcpdump -i any port 6164 -A |grep ticket
+tcpdump -i any port 6164 -A |grep ticket  
 -i any 任意网卡 默认不包括lo网卡
 
 定位系统调用问题时候
