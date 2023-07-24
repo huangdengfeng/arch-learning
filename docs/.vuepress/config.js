@@ -65,6 +65,7 @@ export default {
             '/notes/tools/maven.md',
             '/notes/tools/tcp.md',
             '/notes/tools/perfa.md',
+            '/notes/tools/gc.md',
           ],
         },
       ],
