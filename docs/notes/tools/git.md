@@ -84,10 +84,8 @@ git merge --squash [branch_name]
 ```
 
 ## 文件回退
-
-1. 未add 的直接git checkout -- fileName
-2. 已add 或者已经commit 的回到指定版本 git reset commit_id [fileName]，这个无法使用-hard,所以还需要再git
-   checkout -- fileName ，这样就可以回到指定commit_id 的版本
+git checkout [commit_id] -- fileName
+commit_id 默认为HEAD,上一次为HEAD~1，也可以填入指定commit_id
 
 ## 回退
 
