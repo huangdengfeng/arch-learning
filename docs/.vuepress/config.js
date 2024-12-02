@@ -64,7 +64,7 @@ export default {
             '/notes/tools/mysql.md',
             '/notes/tools/maven.md',
             '/notes/tools/tcp.md',
-            '/notes/tools/perfa.md',
+            '/notes/tools/perf.md',
             '/notes/tools/gc.md',
             '/notes/tools/proxy.md',
           ],
