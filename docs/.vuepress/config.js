@@ -66,6 +66,7 @@ export default {
             '/notes/tools/tcp.md',
             '/notes/tools/perfa.md',
             '/notes/tools/gc.md',
+            '/notes/tools/proxy.md',
           ],
         },
       ],
