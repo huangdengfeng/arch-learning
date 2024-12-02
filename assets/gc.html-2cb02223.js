@@ -1,0 +1,1 @@
+import{_ as a,p as r,q as c,R as e,t as s}from"./framework-a44ba987.js";const n={};function o(l,t){return r(),c("div",null,t[0]||(t[0]=[e("h1",{id:"gc-分析工具",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#gc-分析工具","aria-hidden":"true"},"#"),s(" GC 分析工具")],-1),e("p",null,"https://gceasy.io/",-1)]))}const i=a(n,[["render",o],["__file","gc.html.vue"]]);export{i as default};

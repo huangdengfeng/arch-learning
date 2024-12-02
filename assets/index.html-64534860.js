@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-63e82ae3","path":"/architecture/","title":"亿级企业架构","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"项目说明","slug":"项目说明","link":"#项目说明","children":[]}],"git":{"updatedTime":1687680261000,"contributors":[{"name":"dfenghuang","email":"dfenghuang@tencent.com","commits":4}]},"filePathRelative":"architecture/index.md"}');export{e as data};

@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-e8b6c472","path":"/notes/","title":"说明","lang":"en-US","frontmatter":{},"headers":[{"level":2,"title":"自勉","slug":"自勉","link":"#自勉","children":[]}],"git":{"updatedTime":1678123293000,"contributors":[{"name":"dfenghuang","email":"dfenghuang@tencent.com","commits":1}]},"filePathRelative":"notes/index.md"}');export{e as data};
