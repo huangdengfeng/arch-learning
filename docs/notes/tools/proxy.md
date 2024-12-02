@@ -10,8 +10,9 @@ sudo yum install squid
 # 默认配置路径 /etc/squid/squid.conf
 # 支持账号密码
 sudo yum install httpd-tools
-# 设置账号密码
+# 设置账号密码，-c 是新文件，每次都会覆盖，适合首次，后续添加更多用户可以不需要
 sudo htpasswd -c /etc/squid/passwd 自定义用户名
+# 
 # 修改squid 配置
 # 如果路径不存在，可查找 find / -name basic_ncsa_auth
 # 放在http_access deny all 上方
